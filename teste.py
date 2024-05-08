@@ -11,32 +11,40 @@ import matplotlib.colors as mcolors
 from PIL import Image
 from datasetgen import *
 from sklearn.preprocessing import StandardScaler
+from torch.optim.lr_scheduler import StepLR
+
 
 
 device = tc.device("cuda" if tc.cuda.is_available() else "cpu")
 
 def plot_input(img):
-    image_np = img[0].numpy().transpose((1, 2, 0))
-    
+    #image_np = img[0].numpy().transpose((1, 2, 0))
+    image_np = img[0,0].numpy().reshape(77,77)
+    plt.imshow(image_np, cmap='gray') 
+    '''
     # Plot each channel separately
     fig, axs = plt.subplots(1, 3, figsize=(12, 4))
 
     for i in range(1):
         axs[i].imshow(image_np[:, :, i], cmap='gray')  # Use cmap='gray' for grayscale images
         axs[i].set_title(f'Channel {i}')
-
+    '''
     plt.show()
 
 def plot_output(recon_img):
     img2 = recon_img[0].detach().numpy()
-    image_np2 = img2.transpose((1, 2, 0))
+    image_np2 = img2[0].reshape(77,77)
+
+    #image_np2 = img2.transpose((1, 2, 0))
+    plt.imshow(image_np2, cmap='gray')
+    '''
     # Plot each channel separately
     fig, axs = plt.subplots(1, 3, figsize=(12, 4))
 
     for i in range(1):
         axs[i].imshow(image_np2[:, :, i], cmap='gray')  # Use cmap='gray' for grayscale images
         axs[i].set_title(f'Channel {i}')
-
+    '''
     plt.show()
 
 # Define a custom dataset class
@@ -63,61 +71,61 @@ class Autoencoder(nn.Module):
         self.encoder = nn.Sequential(
             #nn.Linear(input_shape, input_shape),
             #nn.ReLU(),
-            nn.Conv2d(1, 77, 3, stride=2, padding=1),  # b, 16, 76, 76
+            nn.Conv2d(1, 77, 9, stride=2, padding=1),  # b, 16, 76, 76
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Sigmoid(),
             #nn.ReLU(),
-            nn.Conv2d(77, 30, 2, stride=2, padding=1),  # b, 8, 38, 38
+            nn.Conv2d(77, 30, 5, stride=2, padding=1),  # b, 8, 38, 38
             nn.Sigmoid(),#nn.ReLU(),
-            nn.Conv2d(30, 15, 2, stride=2, padding=1),  # b, 8, 38, 38
-            nn.MaxPool2d(kernel_size=2, stride=2),
+            #nn.Conv2d(30, 15, 2, stride=2, padding=1),  # b, 8, 38, 38
+            #nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Sigmoid(),#nn.ReLU(),
-            nn.Conv2d(15, 16, 2, stride=2, padding=1),  # b, 8, 38, 38
+            nn.Conv2d(30, 16, 2, stride=2, padding=1),  # b, 8, 38, 38
             nn.MaxPool2d(kernel_size=1, stride=2),
             nn.ReLU(),
             nn.Flatten(),  # Flatten the feature maps
-            nn.Linear(16, 180),  # Dense layer with 50 neurons
-            nn.ReLU(),
-            nn.Linear(180, 90),  # Dense layer with 50 neurons
+            #nn.Linear(16, 180),  # Dense layer with 50 neurons
+            #nn.ReLU(),
+            nn.Linear(144, 90),  # Dense layer with 50 neurons
             nn.ReLU(),
             nn.Linear(90, 45),  # Dense layer with 50 neurons
             nn.ReLU(),
-            nn.Linear(45, 16),  # Dense layer with 5 neurons
+            nn.Linear(45, 160),  # Dense layer with 5 neurons
             nn.ReLU(),
-            nn.Linear(16,15),
+            nn.Linear(160,150),
             nn.ReLU(),
         )
         self.middlelayer = nn.Sequential(
-            nn.Linear(15,15),
+            nn.Linear(150,150),
             nn.ReLU(),#
             #nn.Sigmoid(),
         )
         #self.rnn = nn.LSTM(1, 5, 100)
         self.decoder = nn.Sequential(
-            nn.Linear(15, 15),  # Dense layer with 5 neurons
+            nn.Linear(150, 150),  # Dense layer with 5 neurons
             nn.ReLU(),
-            nn.Linear(15, 16),  # Dense layer with 50 neurons
+            nn.Linear(150, 160),  # Dense layer with 50 neurons
             nn.ReLU(),
-            nn.Linear(16, 45),  # Dense layer with 50 neurons
+            nn.Linear(160, 45),  # Dense layer with 50 neurons
             nn.ReLU(),
             nn.Linear(45, 90),  # Dense layer with 50 neurons
             nn.ReLU(),
-            nn.Linear(90, 180),  # Dense layer with 50 neurons
-            nn.ReLU(),
-            nn.Linear(180, 16),  # Dense layer with 50 neurons
+            #nn.Linear(90, 180),  # Dense layer with 50 neurons
+            #nn.ReLU(),
+            nn.Linear(90, 16),  # Dense layer with 50 neurons
             nn.ReLU(),
             nn.Flatten(),  # Flatten the feature maps
-            nn.Linear(16, 16 * 11 * 11),  # Dense layer with 50 neurons
+            nn.Linear(16, 16 *20* 20),  # Dense layer with 50 neurons
             nn.ReLU(),
             #nn.Unflatten(1, (15, 27, 27)),  # Reshape back to feature maps
-            nn.Unflatten(1, (16, 11, 11)),  # Reshape back to feature maps
+            nn.Unflatten(1, (16, 20, 20)),  # Reshape back to feature maps
             nn.ReLU(),
-            nn.ConvTranspose2d(16, 15, 2, stride=2, padding=1),  # b, 8, 38, 38
+            nn.ConvTranspose2d(16, 30, 4, stride=2, padding=1),  # b, 8, 38, 38
             nn.MaxPool2d(kernel_size=2, stride=1),
             nn.Sigmoid(),#nn.ReLU(),
-            nn.ConvTranspose2d(15, 30, 5, stride=2, padding=1, output_padding=1),  # b, 30, 77, 77
+            #nn.ConvTranspose2d(20, 30, 2, stride=2, padding=1, output_padding=1),  # b, 30, 77, 77
             nn.Sigmoid(),#nn.ReLU(),
-            nn.ConvTranspose2d(30, 77, 2, stride=2, padding=1, output_padding=1),  # b, 77, 154, 154
+            nn.ConvTranspose2d(30, 77, 4, stride=2, padding=1, output_padding=1),  # b, 77, 154, 154
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Sigmoid(),#nn.ReLU(),
             nn.ConvTranspose2d(77, 1, 3, stride=2, padding=1, output_padding=0),  # b, 3, 311, 311
@@ -141,6 +149,53 @@ class Autoencoder(nn.Module):
         #x = x.squeeze(0)
         x = self.decoder(x)
         return x
+
+
+# autoencoder without CNN
+class DenseAutoencoder(nn.Module):
+    def __init__(self,input_size, latent_dim):
+        super(DenseAutoencoder, self).__init__()
+        self.device = device
+        self.encoder = nn.Sequential(
+            nn.Linear(input_size, 180),
+            nn.ReLU(),
+            nn.Linear(180, 190),  # Dense layer with 50 neurons
+            nn.ReLU(),
+            nn.Linear(190, 145),  # Dense layer with 50 neurons
+            nn.ReLU(),
+            nn.Linear(145, 160),  # Dense layer with 5 neurons
+            nn.ReLU(),
+            nn.Linear(160,latent_dim),
+            nn.ReLU(),
+        )
+        self.middlelayer = nn.Sequential(
+            nn.Linear(latent_dim,latent_dim),
+            nn.ReLU(),
+        )
+        self.decoder = nn.Sequential(
+            nn.Linear(latent_dim, 160),  # Dense layer with 50 neurons
+            nn.ReLU(),
+            nn.Linear(160, 145),  # Dense layer with 50 neurons
+            nn.ReLU(),
+            nn.Linear(145, 190),  # Dense layer with 50 neurons
+            nn.ReLU(),
+            nn.Linear(190, 180),  # Dense layer with 50 neurons
+            nn.ReLU(),
+            nn.Linear(180, input_size),  # Dense layer with 50 neurons
+            nn.Sigmoid()
+        )
+        # Manually initialize weights and biases
+        #nn.init.normal_(self.encoder[0].weight, mean=0.2, std=0.05)
+        #nn.init.constant_(self.encoder[0].bias, 0)  # Initialize biases to zero
+        #nn.init.normal_(self.decoder[0].weight, mean=0.2, std=0.05)
+        #nn.init.constant_(self.decoder[0].bias, 0)  # Initialize biases to zero
+        
+    def forward(self, x):
+        x = self.encoder(x)
+        x = self.middlelayer(x)
+        x = self.decoder(x)
+        return x
+
 
 class WeightedMSELoss(nn.Module):
     def __init__(self, weight=None):
@@ -176,7 +231,8 @@ def treatdata(N):
 
         if np.where(reshaped_matrix<255)[0].size >0:
             normalized_data = scaler.fit_transform(reshaped_matrix)
-            rgb_matrix = normalized_data.reshape(77, 77, 1)
+            #rgb_matrix = normalized_data.reshape(77, 77, 1)
+            rgb_matrix = normalized_data.reshape(77* 77, 1)
             # Append the matrix for the current frame to the list
             frames_matrices.append(rgb_matrix)    
 
@@ -189,27 +245,31 @@ def treatdata(N):
 # CODE
 
 # variaveis ctrl C
-N= 1001 #801
+N= 101 #801
 frames_matrices = []
 # Directory to save images
 output_directory = 'pendulum_images'
 
-generate_batch_set(N,np.pi/10,0.0, l=1)
+#generate_batch_set(N,np.pi/5,0.0, l=1)
 frames_matrices = treatdata(N)
 
 # Hyperparameters
-batch_size = 250 #50
-learning_rate = 1e-3 # 1e-4
-num_epochs = 2000
+batch_size = 20 #50
+learning_rate = 1e-4#2*1e-3 # 1e-4
+num_epochs = 20000
 
 # Example: frames_matrices = np.random.rand(10000, 77, 77, 3)
 
 # Create DataLoader
 dataset = CustomDataset(frames_matrices)
-dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False)
 
 # Initialize the autoencoder model and loss function
-model = Autoencoder()
+#model = Autoencoder()
+input_size = 77*77
+latent_dim = 3
+model = DenseAutoencoder(input_size, latent_dim)
+
 # Define custom weights for red and blue channels
 custom_weights = tc.tensor([1., 0., 0.], dtype=tc.float32)
 
@@ -218,23 +278,26 @@ criterion = nn.MSELoss()
 weighted_mse_loss = WeightedMSELoss(weight=custom_weights)
 
 #criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=learning_rate)        
+optimizer = optim.Adam(model.parameters(), lr=learning_rate)  
+#scheduler = StepLR(optimizer, step_size=500, gamma=0.2  )
 print(f'device is : {device}')
 
 LOSS = []
 # Training loop
 for epoch in range(num_epochs):
     i=0
-    #angle = np.pi/10*(1+np.random.randn())
-    #omega_0 = np.random.randn()
-    #l = abs(2*np.random.randn())
-    #generate_batch_set(N,angle,omega_0,l)
-    #frames_matrices = treatdata(N)
-    #dataset = CustomDataset(frames_matrices)
-    #dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-
+    '''
+    angle = np.pi/10*(1+np.random.randn())
+    omega_0 = 0.2*np.random.randn()
+    l = abs(4*np.random.randn())
+    generate_batch_set(N,angle,omega_0,l)
+    frames_matrices = treatdata(N)
+    dataset = CustomDataset(frames_matrices)
+    dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
+    '''
     for data in dataloader:
-        img = data.permute(0, 3, 1, 2)  # Change the order of dimensions for Conv2d input
+        img = data.permute(0, 2, 1)  # Change the order of dimensions for Conv2d input
+        #img = data.permute(0, 3, 1, 2)  # Change the order of dimensions for Conv2d input
         if i <1:#batch_size:
             recon_img = model(img)
             #loss = 0
@@ -252,7 +315,7 @@ for epoch in range(num_epochs):
         last_img = img 
     
         optimizer.zero_grad()
-        
+        #scheduler.step()
         loss.backward()
         optimizer.step()
         LOSS.append(loss.cpu().detach().numpy())
@@ -267,8 +330,8 @@ for epoch in range(num_epochs):
         optimizer.step()
         '''
 
-    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.8f}')
-    if ((epoch+1)%((num_epochs/2))) ==0:    
+    print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.8f}')#,  Learning Rate: {scheduler.get_last_lr()}')
+    if ((epoch+1)%((num_epochs/40))) ==0:    
         #plt.plot(np.log(LOSS))
         #plt.yscale('log')
         plt.plot(LOSS)
