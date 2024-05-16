@@ -91,7 +91,7 @@ class SimpleAutoencoder(nn.Module):
 
         
 class Trainer:
-    def __init__(self, model, dataset, batch_size=15, lr=0.001, step_size=500, gamma=0.9):
+    def __init__(self, model, dataset, batch_size=15, lr=0.001, step_size=500, gamma=0.9,device='cpu',pltrue=True):
         self.model = model
         self.dataset = dataset
         self.batch_size = batch_size
@@ -100,11 +100,16 @@ class Trainer:
         self.optimizer = tc.optim.Adam(model.parameters(), lr=lr)
         self.scheduler = StepLR(self.optimizer, step_size=step_size, gamma=gamma)
         self.losses = []
+        self.dev = device
+        self.pltrue = pltrue
 
     def train(self, epochs):
+        self.model.to(self.dev)
+        
         self.model.train()
         for epoch in range(epochs):
             for i, data in enumerate(self.dataloader, 0):
+                data = data.to(self.dev)  # Move data to GPU
                 self.optimizer.zero_grad()
                 outputs, encoded = self.model(data)
                 loss = self.criterion(outputs, data)
@@ -112,15 +117,16 @@ class Trainer:
                 self.optimizer.step()
                 self.scheduler.step()
                 self.losses.append(loss.item())
-            if epoch %(epochs/10) == 0:
-                print(f'Epoch [{epoch+1}/{epochs}] , Loss: {loss.item():.4f}')
+            #if epoch %(epochs/10) == 0:
+            #    print(f'Epoch [{epoch+1}/{epochs}] , Loss: {loss.item():.4f}')
         print('Treinamento concluído')
-        self.plot_losses()
+        self.plot_losses(self.pltrue)
 
-    def plot_losses(self):
-        plt.plot(self.losses)
-        plt.yscale("log")
-        plt.xlabel("Iteration")
-        plt.ylabel("Loss")
-        plt.title("Training Loss")
-        plt.show()
+    def plot_losses(self,condi=True):
+        if condi ==True:
+            plt.plot(self.losses)
+            plt.yscale("log")
+            plt.xlabel("Iteration")
+            plt.ylabel("Loss")
+            plt.title("Training Loss")
+            plt.show()

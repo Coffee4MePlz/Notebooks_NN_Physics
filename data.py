@@ -37,12 +37,12 @@ for i in range(frames):
   x, y = get_coords(t)
   line.set_data([0, x], [0, y])
   bob.set_data(x, y)
-  fig.savefig(f'teste\data\img_{i:03d}.png')
+  fig.savefig(f'Notebooks_NN_Physics/data_pendulo/img_{i:03d}.png')
   # Carregar a imagem
-  image = Image.open(f'teste\data\img_{i:03d}.png')
+  image = Image.open(f'Notebooks_NN_Physics/data_pendulo/img_{i:03d}.png')
   # Converter a imagem para escala de cinza
   image = image.convert('L')  # 'L' representa o modo escala de cinza
   image = image.crop(crop_rectangle)
   # Salvar a imagem em escala de cinza
-  image.save(f'teste\data\img_{i:03d}.png')
+  image.save(f'Notebooks_NN_Physics/data_pendulo/img_{i:03d}.png')
 plt.close(fig)
