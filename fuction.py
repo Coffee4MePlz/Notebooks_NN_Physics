@@ -1,8 +1,6 @@
 from PIL import Image
-from tqdm import tqdm
 from torch.utils.data import Dataset, DataLoader
 from torch.optim.lr_scheduler import StepLR
-from torchvision import transforms
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -107,7 +105,7 @@ class Trainer:
         self.model.to(self.dev)
         
         self.model.train()
-        for epoch in range(epochs):
+        for _ in range(epochs):
             for i, data in enumerate(self.dataloader, 0):
                 data = data.to(self.dev)  # Move data to GPU
                 self.optimizer.zero_grad()
