@@ -15,15 +15,28 @@ class SIN(nn.Module):
         super(SIN, self).__init__() 
     def forward(self, x):
         return tc.sin(x)
-
 class CustomImageDataset(Dataset):
-    def __init__(self, root_dir):
+    def __init__(self, root_dir, split='train', train_size=30, seed=None):
         """
         Args:
             root_dir (string): Diretório com todas as imagens.
+            split (string): Tipo de split ('train' ou 'test').
+            train_size (int): Número de imagens no conjunto de treino.
+            seed (int, optional): Semente para reprodutibilidade.
         """
         self.root_dir = root_dir
         self.image_files = [f for f in os.listdir(root_dir) if os.path.isfile(os.path.join(root_dir, f))]
+        
+        self.train_size = train_size
+        self.split = split
+        
+        if self.split == 'train':
+            if seed is not None:
+                np.random.seed(seed)
+            np.random.shuffle(self.image_files)
+            self.image_files = self.image_files[:self.train_size]
+        else:
+            self.image_files = self.image_files
 
     def __len__(self):
         return len(self.image_files)
@@ -33,8 +46,7 @@ class CustomImageDataset(Dataset):
         image = Image.open(img_path)
         image = np.array(image)
         image = image / image.max()  # Normaliza a imagem para o intervalo [0, 1]
-        image = 1-image
-        image = image
+        image = 1 - image
         image = tc.tensor(image, dtype=tc.float32)
         image = image.unsqueeze(0)  # Adiciona uma dimensão de canal se for uma imagem em escala de cinza
         return image
@@ -87,14 +99,15 @@ class SimpleAutoencoder(nn.Module):
         
         return x, y
 
-        
 class Trainer:
-    def __init__(self, model, dataset, batch_size=15, lr=0.001, step_size=500, gamma=0.9,device='cpu',pltrue=True):
+    def __init__(self, model, train_dataset, test_dataset, batch_size=15, lr=0.001, step_size=500, gamma=0.9, device='cpu', pltrue=True):
         self.model = model
-        self.dataset = dataset
+        self.train_dataset = train_dataset
+        self.test_dataset = test_dataset
         self.batch_size = batch_size
-        self.dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
-        self.criterion = nn.MSELoss()
+        self.train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
+        self.test_dataloader = DataLoader(test_dataset, batch_size=test_dataset.__len__(), shuffle=False)
+        self.criterion = nn.L1Loss()#nn.MSELoss()
         self.optimizer = tc.optim.Adam(model.parameters(), lr=lr)
         self.scheduler = StepLR(self.optimizer, step_size=step_size, gamma=gamma)
         self.losses = []
@@ -105,8 +118,8 @@ class Trainer:
         self.model.to(self.dev)
         
         self.model.train()
-        for _ in range(epochs):
-            for i, data in enumerate(self.dataloader, 0):
+        for epoch in range(epochs):
+            for i, data in enumerate(self.train_dataloader, 0):
                 data = data.to(self.dev)  # Move data to GPU
                 self.optimizer.zero_grad()
                 outputs, encoded = self.model(data)
@@ -115,13 +128,13 @@ class Trainer:
                 self.optimizer.step()
                 self.scheduler.step()
                 self.losses.append(loss.item())
-            #if epoch %(epochs/10) == 0:
-            #    print(f'Epoch [{epoch+1}/{epochs}] , Loss: {loss.item():.4f}')
+            if epoch % (epochs // 10) == 0:
+                print(f'Epoch [{epoch+1}/{epochs}], Loss: {loss.item():.4f}')
         print('Treinamento concluído')
         self.plot_losses(self.pltrue)
 
-    def plot_losses(self,condi=True):
-        if condi ==True:
+    def plot_losses(self, condi=True):
+        if condi:
             plt.plot(self.losses)
             plt.yscale("log")
             plt.xlabel("Iteration")

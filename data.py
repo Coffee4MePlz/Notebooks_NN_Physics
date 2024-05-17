@@ -21,7 +21,7 @@ bob, = ax.plot([], [], 'o', color='black', markersize=10)
 
 # Tempo total e número de frames
 duration = 2.1  # segundos
-frames = 30  # número de frames
+frames = 100  # número de frames
 
 # Função para obter coordenadas x, y do pêndulo
 def get_coords(t):
