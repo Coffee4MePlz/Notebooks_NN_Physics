@@ -54,12 +54,16 @@ def save_dataset_as_images(data_x, data_y, directory,trailsize = 10,cmap=0):
         # Create a new figure
         plt.figure(figsize=(1,1))  # Adjust size as needed
 
-        if i>trailsize:
-            trail_x = data_x[i-trailsize:i]
-            trail_y = data_y[i-trailsize:i]
+        if trailsize == 0:
+            trail_x = data_x[i:i+1]
+            trail_y = data_y[i:i+1]
         else:
-            trail_x = data_x[0:i]
-            trail_y = data_y[0:i]
+            if i>trailsize:
+                trail_x = data_x[i-trailsize:i]
+                trail_y = data_y[i-trailsize:i]
+            else:
+                trail_x = data_x[0:i]
+                trail_y = data_y[0:i]
 
         # Plot the points
         plt.scatter(trail_x, trail_y, s=5, c=np.arange(len(trail_x)), cmap=cmap)  # Adjust size as needed
@@ -108,7 +112,7 @@ def generate_batch_set(N=100,phi=np.pi/20,omega_0=0.0, l=1):
 
     # Create a colormap from blue to red
     cmap = create_colormap()
-    trailsize=1
+    trailsize=0
     # Save dataset as images
     save_dataset_as_images(data_x, data_y, output_directory, trailsize,cmap)
 
