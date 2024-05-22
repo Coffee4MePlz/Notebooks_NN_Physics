@@ -19,7 +19,7 @@ cbar = fig.colorbar(scatter, ax=ax2)
 cbar.set_label('Tempo (s)', rotation=270, labelpad=15)
 
 # Definir título e labels
-ax2.set_title("Espaço Latente 3D", fontsize=14)
+ax2.set_title("Espaço Latente 2D", fontsize=14)
 ax2.set_xlabel(r"$z_1$", fontsize=12)
 ax2.set_ylabel(r"$z_2$", fontsize=12)
 
@@ -36,7 +36,7 @@ scatter = ax1.scatter(latente[:, 0], latente[:, 1], time[:], c=time[:], cmap='je
 #cbar.set_label('Tempo (s)', rotation=270, labelpad=15)
 
 # Definir título e labels do gráfico 3D
-ax1.set_title("Espaço Latente 2D", fontsize=14)
+ax1.set_title("Espaço Latente 3D", fontsize=14)
 ax1.set_xlabel(r"$z_1$", fontsize=12)
 ax1.set_ylabel(r"$z_2$", fontsize=12)
 ax1.set_zlabel(r"$Tempo$", fontsize=12)
