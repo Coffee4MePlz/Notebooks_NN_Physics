@@ -22,8 +22,8 @@ def generate_pendulum_data(n_ics):
     z = np.zeros((n_ics,t.size,2))
     dz = np.zeros(z.shape)
 
-    z1range = np.array([-np.pi,np.pi])
-    z2range = np.array([-2.1,2.1])
+    z1range = np.array([-np.pi,np.pi])/3
+    z2range = np.array([-2.1,2.1])/3
     i = 0
     while (i < n_ics):
         z0 = np.array([(z1range[1]-z1range[0])*np.random.rand()+z1range[0],
