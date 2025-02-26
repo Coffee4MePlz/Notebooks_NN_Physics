@@ -1,62 +1,62 @@
 # 🧠 Notebooks_NN_Physics
 
-📌 **Descrição**
-Este repositório contém Jupyter Notebooks desenvolvidos para uso didático em conjunto com o artigo *"Nome do Artigo"* publicado na **Revista Brasileira de Ensino de Física**. Os notebooks têm como objetivo auxiliar na compreensão dos conceitos abordados no artigo, fornecendo exemplos práticos e interativos sobre redes neurais e física computacional.
+📌 **Description**
+This repository contains Jupyter Notebooks developed for educational purposes in conjunction with the article *"Article Name"* published in the **Brazilian Journal of Physics Education**. The notebooks aim to help understand the concepts covered in the article, providing practical and interactive examples on neural networks and computational physics.
 
 ---
 
-## 📂 Estrutura do Repositório
+## 📂 Repository Structure
 
 📁 **Notebooks**
 
-| 📌 Arquivo | 📖 Descrição |
+| 📌 File | 📖 Description |
 |-----------|-------------|
-| 🟢 `01-Perceptron-iris.ipynb` | Introdução ao algoritmo Perceptron aplicado à base de dados Iris. |
-| 🟠 `02-Perceptron-Regressao.ipynb` | Utilização do Perceptron para problemas de regressão. |
-| 🔵 `03-Perceptron-iris.ipynb` | Outra implementação do Perceptron na base Iris com ajustes específicos. |
-| ⚙️ `04-Exemplo 1 Pendulo.ipynb` | Modelagem de um pêndulo usando redes neurais. |
-| 🔥 `05-Exemplo 2 OHS.ipynb` | Aplicação de redes neurais ao sistema OHS (Oscilador Harmônico Simples). |
-| 🏗️ `Exemplo 3-Autoencoder` | Implementação de um Autoencoder para compressão e aprendizado de representação. |
-| 🤖 `SINDyAutoencoder` | Uso de Sparse Identification of Nonlinear Dynamics (SINDy) com Autoencoders. |
+| 🟢 `01-Perceptron-iris.ipynb` | Introduction to the Perceptron algorithm applied to the Iris dataset. |
+| 🟠 `02-Perceptron-Regressao.ipynb` | Using the Perceptron for regression problems. |
+| 🔵 `03-Perceptron-iris.ipynb` | Another implementation of the Perceptron on the Iris dataset with specific adjustments. |
+| ⚙️ `04-Exemplo 1 Pendulo.ipynb` | Modeling a pendulum using neural networks. |
+| 🔥 `05-Exemplo 2 OHS.ipynb` | Application of neural networks to the OHS (Simple Harmonic Oscillator) system. |
+| 🏗️ `Exemplo 3-Autoencoder` | Implementation of an Autoencoder for compression and representation learning. |
+| 🤖 `SINDyAutoencoder` | Use of Sparse Identification of Nonlinear Dynamics (SINDy) with Autoencoders. |
 
-📊 **Outros arquivos**
-- 🖼️ `SINDyAutoencoder_ValidationData_PT.png` - Figura de validação para o modelo SINDyAutoencoder.
+📊 **Other Files**
+- 🖼️ `SINDyAutoencoder_ValidationData_PT.png` - Validation figure for the SINDyAutoencoder model.
 
 ---
 
-## 🚀 Como Usar
+## 🚀 How to Use
 
-1️⃣ **Clone o repositório**
+1️⃣ **Clone the repository**
 ```bash
  git clone https://github.com/Coffee4MePlz/Notebooks_NN_Physics.git
 ```
 
-2️⃣ **Instale as dependências** (caso necessário)
+2️⃣ **Install dependencies** (if needed)
 ```bash
  pip install -r requirements.txt
 ```
 
-3️⃣ **Execute os notebooks**
-- Abra o Jupyter Notebook:
+3️⃣ **Run the notebooks**
+- Open Jupyter Notebook:
 ```bash
  jupyter notebook
 ```
-- Navegue até o notebook desejado e execute as células.
+- Navigate to the desired notebook and execute the cells.
 
 ---
 
-## 🔧 Requisitos
+## 🔧 Requirements
 - Python 3.x
 - Jupyter Notebook
-- Bibliotecas: NumPy, TensorFlow, SciPy, Matplotlib (detalhes em `requirements.txt`)
+- Libraries: NumPy, TensorFlow, SciPy, Matplotlib (details in `requirements.txt`)
 
 ---
 
-## 📬 Contato
-Caso tenha dúvidas ou sugestões, entre em contato:
-📧 **Email**: [seuemail@example.com](mailto:seuemail@example.com)  
-🔗 **LinkedIn**: [seu perfil](https://linkedin.com)
+## 📬 Contact
+If you have any questions or suggestions, feel free to reach out:
+📧 **Email**: [youremail@example.com](mailto:youremail@example.com)  
+🔗 **LinkedIn**: [your profile](https://linkedin.com)
 
 ---
 
-⭐ **Se achar útil, não esqueça de dar um star no repositório!** ⭐
+⭐ **If you find this useful, don't forget to star the repository!** ⭐
