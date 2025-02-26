@@ -48,7 +48,7 @@ Este repositório contém Jupyter Notebooks desenvolvidos para uso didático em 
 ## 🔧 Requisitos
 - Python 3.x
 - Jupyter Notebook
-- Bibliotecas: NumPy, TensorFlow, SciPy, Matplotlib (detalhes em `requirements.txt`)
+- Bibliotecas: NumPy, Pytorch, Matplotlib, scikit-learn... (detalhes em `requirements.txt`)
 
 ---
 
