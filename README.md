@@ -1,7 +1,7 @@
 # 🧠 Notebooks_NN_Physics
 
 📌 **Description**
-This repository contains Jupyter Notebooks developed for educational purposes in conjunction with the article *"Article Name"* published in the **Brazilian Journal of Physics Education**. The notebooks aim to help understand the concepts covered in the article, providing practical and interactive examples on neural networks and computational physics.
+This repository contains Jupyter Notebooks developed as supplementary material for the article "Introduction to Neural Networks for Physicists", published in the **Brazilian Journal of Physics Education**. Created by **Gustavo Café** and **Gubio Gomes**, these notebooks aim to enhance the understanding of the concepts discussed in the article by providing practical and interactive examples. Specifically, they explore different neural network approaches applied to the dynamics of a simple pendulum, illustrating their potential in computational physics.
 
 ---
 
@@ -14,8 +14,8 @@ This repository contains Jupyter Notebooks developed for educational purposes in
 | 🟢 `01-Perceptron-iris.ipynb` | Introduction to the Perceptron algorithm applied to the Iris dataset. |
 | 🟠 `02-Perceptron-Regressao.ipynb` | Using the Perceptron for regression problems. |
 | 🔵 `03-Perceptron-iris.ipynb` | Another implementation of the Perceptron on the Iris dataset with specific adjustments. |
-| ⚙️ `04-Exemplo 1 Pendulo.ipynb` | Modeling a pendulum using neural networks. |
-| 🔥 `05-Exemplo 2 OHS.ipynb` | Application of neural networks to the OHS (Simple Harmonic Oscillator) system. |
+| ⚙️ `04-Exemplo 1 Pendulo.ipynb` | Determine the constant for OHS (Simple Harmonic Oscillation) when modeling a pendulum using neural networks.|
+| 🔥 `05-Exemplo 2 OHS.ipynb` | Solve diferential equation of OHS with method call Physics informed neural network. |
 | 🏗️ `Exemplo 3-Autoencoder` | Implementation of an Autoencoder for compression and representation learning. |
 | 🤖 `SINDyAutoencoder` | Use of Sparse Identification of Nonlinear Dynamics (SINDy) with Autoencoders. |
 
@@ -38,9 +38,6 @@ This repository contains Jupyter Notebooks developed for educational purposes in
 
 3️⃣ **Run the notebooks**
 - Open Jupyter Notebook:
-```bash
- jupyter notebook
-```
 - Navigate to the desired notebook and execute the cells.
 
 ---
