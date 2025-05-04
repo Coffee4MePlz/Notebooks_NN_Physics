@@ -22,12 +22,12 @@ def generate_pendulum_data(n_ics):
     z = np.zeros((n_ics,t.size,2))
     dz = np.zeros(z.shape)
 
-    z1range = np.array([-np.pi,np.pi])/3
-    z2range = np.array([-2.1,2.1])/3
+    z1range = np.array([-np.pi,np.pi])
+    z2range = np.array([-2.1,2.1])
     i = 0
     while (i < n_ics):
         z0 = np.array([(z1range[1]-z1range[0])*np.random.rand()+z1range[0],
-            (z2range[1]-z2range[0])*np.random.rand()+z2range[0]])
+            (z2range[1]-z2range[0])*np.random.rand()+z2range[0]])  # condição sobre a energia, para não haver voltas completas na oscilação
         if np.abs(z0[1]**2/2. - np.cos(z0[0])) > .99:
             continue
         z[i] = odeint(f, z0, t)
@@ -35,29 +35,6 @@ def generate_pendulum_data(n_ics):
         i += 1
 
     x,dx,ddx = pendulum_to_movie(z, dz)
-
-    # n = 51
-    # xx,yy = np.meshgrid(np.linspace(-1.5,1.5,n),np.linspace(1.5,-1.5,n))
-    # create_image = lambda theta : np.exp(-((xx-np.cos(theta-np.pi/2))**2 + (yy-np.sin(theta-np.pi/2))**2)/.05)
-    # argument_derivative = lambda theta,dtheta : -1/.05*(2*(xx - np.cos(theta-np.pi/2))*np.sin(theta-np.pi/2)*dtheta \
-    #                                                   + 2*(yy - np.sin(theta-np.pi/2))*(-np.cos(theta-np.pi/2))*dtheta)
-    # argument_derivative2 = lambda theta,dtheta,ddtheta : -2/.05*((np.sin(theta-np.pi/2))*np.sin(theta-np.pi/2)*dtheta**2 \
-    #                                                            + (xx - np.cos(theta-np.pi/2))*np.cos(theta-np.pi/2)*dtheta**2 \
-    #                                                            + (xx - np.cos(theta-np.pi/2))*np.sin(theta-np.pi/2)*ddtheta \
-    #                                                            + (-np.cos(theta-np.pi/2))*(-np.cos(theta-np.pi/2))*dtheta**2 \
-    #                                                            + (yy - np.sin(theta-np.pi/2))*(np.sin(theta-np.pi/2))*dtheta**2 \
-    #                                                            + (yy - np.sin(theta-np.pi/2))*(-np.cos(theta-np.pi/2))*ddtheta)
-        
-    # x = np.zeros((n_ics, t.size, n, n))
-    # dx = np.zeros((n_ics, t.size, n, n))
-    # ddx = np.zeros((n_ics, t.size, n, n))
-    # for i in range(n_ics):
-    #     for j in range(t.size):
-    #         z[i,j,0] = wrap_to_pi(z[i,j,0])
-    #         x[i,j] = create_image(z[i,j,0])
-    #         dx[i,j] = (create_image(z[i,j,0])*argument_derivative(z[i,j,0], dz[i,j,0]))
-    #         ddx[i,j] = create_image(z[i,j,0])*((argument_derivative(z[i,j,0], dz[i,j,0]))**2 \
-    #                         + argument_derivative2(z[i,j,0], dz[i,j,0], dz[i,j,1]))
 
     return t,x,dx,ddx,z
 
