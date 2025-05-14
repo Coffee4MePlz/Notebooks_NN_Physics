@@ -52,7 +52,7 @@ This repository contains Jupyter Notebooks developed as supplementary material f
 ## 📬 Contact
 If you have any questions or suggestions, feel free to reach out:
 📧 **Email**: [gcaf0125@uni.sydney.edu.au](mailto:gcaf0125@uni.sydney.edu.au)  
-🔗 **LinkedIn**: [My Profile]([https://linkedin.com](https://www.linkedin.com/in/gustavo-caf%C3%A9-de-miranda-08188b190/))
+🔗 **LinkedIn**: [My Profile](https://www.linkedin.com/in/gustavo-caf%C3%A9-de-miranda-08188b190/)
 
 ---
 
