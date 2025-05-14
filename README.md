@@ -16,8 +16,8 @@ This repository contains Jupyter Notebooks developed as supplementary material f
 | 🔵 `03-Perceptron-iris.ipynb` | Another implementation of the Perceptron on the Iris dataset with specific adjustments. |
 | ⚙️ `04-Exemplo 1 Pendulo.ipynb` | Determine the constant for OHS (Simple Harmonic Oscillation) when modeling a pendulum using neural networks.|
 | 🔥 `05-Exemplo 2 OHS.ipynb` | Solve diferential equation of OHS with method call Physics informed neural network. |
-| 🏗️ `Exemplo 3-Autoencoder` | Implementation of an Autoencoder for compression and representation learning. |
-| 🤖 `SINDyAutoencoder` | Use of Sparse Identification of Nonlinear Dynamics (SINDy) with Autoencoders. |
+| 🏗️ `./Exemplo 3-Autoencoder` | Implementation of an Autoencoder for compression and representation learning. |
+| 🤖 `./SINDyAutoencoder` | Use of Sparse Identification of Nonlinear Dynamics (SINDy) with Autoencoders. |
 
 📊 **Other Files**
 - 🖼️ `SINDyAutoencoder_ValidationData_PT.png` - Validation figure for the SINDyAutoencoder model.
@@ -51,8 +51,8 @@ This repository contains Jupyter Notebooks developed as supplementary material f
 
 ## 📬 Contact
 If you have any questions or suggestions, feel free to reach out:
-📧 **Email**: [youremail@example.com](mailto:youremail@example.com)  
-🔗 **LinkedIn**: [your profile](https://linkedin.com)
+📧 **Email**: [gcaf0125@uni.sydney.edu.au](mailto:gcaf0125@uni.sydney.edu.au)  
+🔗 **LinkedIn**: [My Profile]([https://linkedin.com](https://www.linkedin.com/in/gustavo-caf%C3%A9-de-miranda-08188b190/))
 
 ---
 
