@@ -1,7 +1,7 @@
 # 🧠 Notebooks_NN_Physics
 
 📌 **Descrição**
-Este repositório contém Jupyter Notebooks desenvolvidos para uso didático em conjunto com o artigo *"Nome do Artigo"* publicado na **Revista Brasileira de Ensino de Física**. Os notebooks têm como objetivo auxiliar na compreensão dos conceitos abordados no artigo, fornecendo exemplos práticos e interativos sobre redes neurais e física computacional.
+Este repositório contém Jupyter Notebooks desenvolvidos para uso didático em conjunto com o artigo *"n introduction to Neural Networks for Physicists"* publicado na **Arxiv**. Os notebooks têm como objetivo auxiliar na compreensão dos conceitos abordados no artigo, fornecendo exemplos práticos e interativos sobre redes neurais e física computacional.
 
 ---
 
