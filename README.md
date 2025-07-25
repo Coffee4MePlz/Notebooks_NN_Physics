@@ -1,7 +1,7 @@
 # 🧠 Notebooks_NN_Physics
 
 📌 **Description**
-This repository contains Jupyter Notebooks developed as supplementary material for the article "Introduction to Neural Networks for Physicists", published in the **Brazilian Journal of Physics Education**. Created by **Gustavo Café** and **Gubio Gomes**, these notebooks aim to enhance the understanding of the concepts discussed in the article by providing practical and interactive examples. Specifically, they explore different neural network approaches applied to the dynamics of a simple pendulum, illustrating their potential in computational physics.
+This repository contains Jupyter Notebooks developed as supplementary material for the article "Introduction to Neural Networks for Physicists", published in the **Arxiv**. Created by **Gustavo Café** and **Gubio Gomes**, these notebooks aim to enhance the understanding of the concepts discussed in the article by providing practical and interactive examples. Specifically, they explore different neural network approaches applied to the dynamics of a simple pendulum, illustrating their potential in computational physics.
 
 ---
 
